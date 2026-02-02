@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: quantum_dao_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-quantum}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-quantum_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-quantum_dao}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-quantum} -d ${POSTGRES_DB:-quantum_dao}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: quantum_dao_backend
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-quantum}:${POSTGRES_PASSWORD:-quantum_secret}@postgres:5432/${POSTGRES_DB:-quantum_dao}
+      RUST_LOG: ${RUST_LOG:-info}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
+      PORT: 8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: quantum_dao_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000/api
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
