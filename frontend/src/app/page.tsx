@@ -15,15 +15,15 @@ export default function Home() {
         <div className="text-center px-8 z-10">
           <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] text-white leading-[0.9] tracking-tight">
             <span className="block animate-slide-up opacity-0" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
-              <span className="italic font-normal">One app</span>
+              <span className="italic font-normal">Post-Quantum</span>
             </span>
             <span className="block animate-slide-up opacity-0" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
-              <span className="font-bold">for all needs</span>
+              <span className="font-bold">Security</span>
             </span>
           </h1>
 
           <p className="text-white/80 text-lg md:text-xl mt-8 md:mt-12 max-w-md mx-auto animate-fade-in opacity-0" style={{ animationDelay: "0.6s", animationFillMode: "forwards" }}>
-            Single account for all your payments.
+            Post-Quantum Threshold Signatures for DAOs
           </p>
 
           <div className="mt-8 animate-fade-in opacity-0" style={{ animationDelay: "0.8s", animationFillMode: "forwards" }}>
